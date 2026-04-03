@@ -1,0 +1,2 @@
+Generate 5 multiple choice questions from the given text.
+Each question should contain four options and the correct answer.

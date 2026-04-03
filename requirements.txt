@@ -1,0 +1,17 @@
+streamlit
+langchain
+langchain-community
+ollama
+langchain-groq
+faiss-cpu
+pypdf
+python-dotenv
+sentence-transformers
+langchain-text-splitters
+sentence_transformers
+langchain_huggingface
+transformers
+torch
+scipy
+soundfile
+deep-translator
