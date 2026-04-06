@@ -2,6 +2,7 @@ from langchain_groq import ChatGroq
 from config.settings import GROQ_API_KEY
 
 def summerize_text(text):
+    text = text[:15000] # Limit text to prevent RateLimit errors
     llm=ChatGroq(
         groq_api_key=GROQ_API_KEY,
         model_name="openai/gpt-oss-120b",

@@ -31,12 +31,11 @@ if uploaded_file:
 
     chunks = split_text(text)
 
-    if not chunks:
-        st.sidebar.error("No extractable text found in the uploaded PDF. Please try a text-based PDF.")
-    else:
-        create_vector_store(chunks)
-        st.sidebar.success("Notes uploaded successfully!")
-        st.session_state["notes_text"] = text
+    create_vector_store(chunks)
+    
+    st.sidebar.success("Notes uploaded successfully!")
+
+    st.session_state["notes_text"] = text
 
 
 # ---------------- Feature Selection ----------------
