@@ -29,13 +29,20 @@ if uploaded_file:
 
     text = load_pdf(path)
 
-    chunks = split_text(text)
-
-    create_vector_store(chunks)
-    
-    st.sidebar.success("Notes uploaded successfully!")
-
-    st.session_state["notes_text"] = text
+    if not text.strip():
+        st.sidebar.error("❌ Error: No text found. This PDF might be a scanned document or image-based. Please upload a standard text PDF.")
+    else:
+        chunks = split_text(text)
+        
+        if not chunks:
+            st.sidebar.error("❌ Error: Could not extract valid text chunks from this PDF.")
+        else:
+            try:
+                create_vector_store(chunks)
+                st.sidebar.success("✅ Notes uploaded successfully!")
+                st.session_state["notes_text"] = text
+            except Exception as e:
+                st.sidebar.error(f"❌ Failed to process PDF: {str(e)}")
 
 
 # ---------------- Feature Selection ----------------
