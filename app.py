@@ -27,7 +27,8 @@ if uploaded_file:
 
     path = save_uploaded_file(uploaded_file)
 
-    text = load_pdf(path)
+    with st.spinner("Processing PDF (Applying OCR if scanned)..."):
+        text = load_pdf(path)
 
     if not text.strip():
         st.sidebar.error("❌ Error: No text found. This PDF might be a scanned document or image-based. Please upload a standard text PDF.")

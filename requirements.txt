@@ -15,3 +15,5 @@ torch
 scipy
 soundfile
 deep-translator
+pytesseract
+PyMuPDF
