@@ -90,7 +90,7 @@ Scalable and user-friendly interface
 
 <img width="1919" height="1129" alt="Screenshot 2026-04-02 185825" src="https://github.com/user-attachments/assets/22ae30ec-0706-43ab-9274-0b2b94d8c814" />
 
-<img width="1919" height="1135" alt="Screenshot 2026-04-03 004810" src="https://github.com/user-attachments/assets/eaf6d96c-7dbc-4979-b8d4-8e6dfc4ae896" 
+<img width="1919" height="1135" alt="Screenshot 2026-04-03 004810" src="https://github.com/user-attachments/assets/eaf6d96c-7dbc-4979-b8d4-8e6dfc4ae896"/> 
 
 ## 🛠️ Tech Stack
 👨‍💻 Core Technologies:
