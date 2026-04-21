@@ -74,6 +74,10 @@ Accessible anytime, anywhere
 
 Scalable and user-friendly interface
 
+## Live Website
+
+https://noteninja-ai.streamlit.app/
+
 # 📸 Demo
 
 <img width="533" height="1797" alt="NoteNinja AI Complete Data Work Flow" src="https://github.com/user-attachments/assets/523a7eec-ec73-425c-be5d-5f6e0c2ea10c" />
@@ -103,7 +107,7 @@ Groq LLM API,
 Hugging Face Embeddings
 
 📦 Data Handling:
-FAISS (Vector Database),
+FAISS (Vector Index),
 PDF Parsing Libraries
 
 ## 🔄 Workflow
