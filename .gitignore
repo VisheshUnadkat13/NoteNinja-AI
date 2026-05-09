@@ -1,6 +1,39 @@
+# venv/
+# .env
+# __pycache__/
+# *.pyc
+# .DS_Store
+# data/
+
+
+# Virtual Environment
 venv/
+
+# Environment Variables
 .env
+
+# Python Cache
 __pycache__/
 *.pyc
+
+# Mac System Files
 .DS_Store
+
+# Generated Data Files
 data/
+data/uploads/
+data/vector_store/
+data/summaries/
+data/quiz_reports/
+
+# Optional Streamlit Cache
+.streamlit/
+
+# Jupyter Notebook Cache
+.ipynb_checkpoints/
+
+# VS Code Settings
+.vscode/
+
+# Logs
+*.log
