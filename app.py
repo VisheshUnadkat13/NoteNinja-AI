@@ -9,15 +9,23 @@ from src.quiz_generator.mcq_generator import generate_quiz
 from langchain_groq import ChatGroq
 from config.settings import GROQ_API_KEY
 from src.utils.tts import generate_audio
-# from src.utils.theme import apply_theme
+from src.utils.theme import apply_theme
 from src.utils.pdf_generator import create_summary_pdf
 from src.utils.quiz_pdf_generator import create_quiz_solution_pdf
 
-st.set_page_config(page_title="NoteNinja AI")
+st.set_page_config(page_title="NoteNinja AI", layout="wide", initial_sidebar_state="expanded")
 
-# apply_theme()
+apply_theme()
 
-st.title("📚 NoteNinja AI")
+# Hero Section
+st.markdown("""
+    <div class="hero-section" style="text-align: center; padding: 60px 0px 40px 0px;">
+        <h1 style="font-size: 4.5rem; margin-bottom: 20px; line-height: 1.1;">📚 NoteNinja AI</h1>
+        <p style="font-size: 1.4rem; color: #94a3b8; max-width: 700px; margin: 0 auto; line-height: 1.6;">
+            The ultimate AI-powered study companion. Upload your notes and let NoteNinja transform them into professional summaries and interactive quizzes.
+        </p>
+    </div>
+""", unsafe_allow_html=True)
 
 # ---------------- Upload Notes (GLOBAL) ----------------
 
@@ -49,15 +57,19 @@ if uploaded_file:
 
 
 # ---------------- Feature Selection ----------------
+st.sidebar.markdown("---")
+st.sidebar.markdown("### 🛠️ Workspace")
 
 menu = st.sidebar.selectbox(
     "Choose Feature",
     ["Summarize", "Generate Quiz"]
 )
 
-# 👇 ADD HERE
-language = st.selectbox(
-    "🌐 Select Voice Language",
+# 👇 Voice Settings
+st.sidebar.markdown("---")
+st.sidebar.markdown("### 🔊 Voice Settings")
+language = st.sidebar.selectbox(
+    "Select Voice Language",
     ["English", "Hindi", "Gujarati"]
 )
 
@@ -97,11 +109,35 @@ lang_code = lang_map[language]
 if menu == "Summarize":
 
     if "notes_text" not in st.session_state:
-        st.warning("Please upload notes first.")
+        st.markdown("""
+            <div class="premium-card" style="text-align: center; padding: 50px;">
+                <h2 style="margin-bottom: 20px;">Ready to Start?</h2>
+                <p style="font-size: 1.1rem; color: #94a3b8; margin-bottom: 30px;">
+                    Upload a PDF document in the sidebar to unlock the power of AI summarization.
+                </p>
+                <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+                    <div style="background: rgba(99, 102, 241, 0.1); padding: 20px; border-radius: 16px; border: 1px solid rgba(99, 102, 241, 0.2); width: 200px;">
+                        <h3 style="font-size: 1.2rem; margin-bottom: 10px;">✨ Smart Summaries</h3>
+                        <p style="font-size: 0.9rem; color: #94a3b8;">Get the core concepts without the fluff.</p>
+                    </div>
+                    <div style="background: rgba(168, 85, 247, 0.1); padding: 20px; border-radius: 16px; border: 1px solid rgba(168, 85, 247, 0.2); width: 200px;">
+                        <h3 style="font-size: 1.2rem; margin-bottom: 10px;">🎧 Voice Output</h3>
+                        <p style="font-size: 0.9rem; color: #94a3b8;">Listen to explanations in multiple languages.</p>
+                    </div>
+                    <div style="background: rgba(139, 92, 246, 0.1); padding: 20px; border-radius: 16px; border: 1px solid rgba(139, 92, 246, 0.2); width: 200px;">
+                        <h3 style="font-size: 1.2rem; margin-bottom: 10px;">📄 PDF Export</h3>
+                        <p style="font-size: 0.9rem; color: #94a3b8;">Download and keep your AI-generated notes.</p>
+                    </div>
+                </div>
+            </div>
+        """, unsafe_allow_html=True)
 
     else:
-
-        if st.button("Summarize Notes"):
+        st.markdown('<div class="premium-card">', unsafe_allow_html=True)
+        st.markdown("### 📝 Summarize Your Notes")
+        st.write("Get a concise summary of your uploaded document in seconds.")
+        
+        if st.button("✨ Summarize Now"):
 
             summary = summerize_text(st.session_state["notes_text"])
 
@@ -121,6 +157,7 @@ if menu == "Summarize":
                     file_name="AI_Summary.pdf",
                     mime="application/pdf"
                 )
+        st.markdown('</div>', unsafe_allow_html=True)
 
 
 # ---------------- Quiz ----------------
@@ -287,9 +324,12 @@ if menu == "Generate Quiz":
         # ---------------------------------------------
         # CREATE QUIZ
         # ---------------------------------------------
+        st.markdown('<div class="premium-card">', unsafe_allow_html=True)
+        st.markdown("### 🧠 Generate a Smart Quiz")
+        st.write("Test your knowledge with AI-generated multiple-choice questions.")
 
         if st.button(
-            "Create Quiz",
+            "🚀 Create My Quiz",
             key="create_quiz_btn"
         ):
 
@@ -337,6 +377,8 @@ if menu == "Generate Quiz":
                 if choice != "-- Select an answer --":
 
                     st.session_state.answers[i] = choice
+            
+            st.markdown('</div>', unsafe_allow_html=True)
 
             # -----------------------------------------
             # SUBMIT QUIZ
@@ -458,6 +500,7 @@ if menu == "Generate Quiz":
                     # DASHBOARD
                     # ---------------------------------
 
+                    st.markdown('<div class="premium-card">', unsafe_allow_html=True)
                     st.header("📊 Result Dashboard")
 
                     col1, col2, col3 = st.columns(3)
@@ -478,6 +521,7 @@ if menu == "Generate Quiz":
                     )
 
                     st.progress(int(accuracy))
+                    st.markdown('</div>', unsafe_allow_html=True)
 
                     # ---------------------------------
                     # WRONG ANSWERS
@@ -493,32 +537,11 @@ if menu == "Generate Quiz":
 
                             st.markdown(
                                 f"""
-                                <div style="
-                                    background-color:#3a0d0d;
-                                    padding:15px;
-                                    border-radius:10px;
-                                    margin-bottom:15px;
-                                ">
-
-                                <h5 style="color:#ff4b4b;">
-                                Q{item['q_no']}
-                                </h5>
-
-                                <p>
-                                <b>Question:</b>
-                                {item['question']}
-                                </p>
-
-                                <p style="color:#ff6b6b;">
-                                <b>Your Answer:</b>
-                                {item['your_answer']}
-                                </p>
-
-                                <p style="color:#4CAF50;">
-                                <b>Correct Answer:</b>
-                                {item['correct_answer']}
-                                </p>
-
+                                <div class="premium-card" style="border-left: 5px solid #ff4b4b;">
+                                    <h5 style="color:#ff4b4b; margin-top: 0;">Q{item['q_no']}</h5>
+                                    <p><b>Question:</b> {item['question']}</p>
+                                    <p style="color:#ff6b6b;"><b>Your Answer:</b> {item['your_answer']}</p>
+                                    <p style="color:#4CAF50;"><b>Correct Answer:</b> {item['correct_answer']}</p>
                                 </div>
                                 """,
                                 unsafe_allow_html=True
@@ -535,7 +558,7 @@ if menu == "Generate Quiz":
                     # ---------------------------------
 
                     if wrong_details:
-
+                        st.markdown('<div class="premium-card">', unsafe_allow_html=True)
                         st.subheader(
                             "🧠 AI Learning Insights"
                         )
@@ -557,13 +580,14 @@ if menu == "Generate Quiz":
                         st.write(
                             analysis.content
                         )
+                        st.markdown('</div>', unsafe_allow_html=True)
 
                     # ---------------------------------
                     # AI VOICE EXPLANATION
                     # ---------------------------------
 
                     if wrong_details:
-
+                        st.markdown('<div class="premium-card">', unsafe_allow_html=True)
                         st.subheader("🧠 AI Explanation with Voice")
 
                         llm = ChatGroq(
@@ -591,6 +615,7 @@ if menu == "Generate Quiz":
                             audio_path = generate_audio(response.content, lang=lang_code)
 
                             st.audio(audio_path)   
+                        st.markdown('</div>', unsafe_allow_html=True)
 
                     # ---------------------------------
                     # GENERATE PDF REPORT
@@ -614,4 +639,5 @@ if menu == "Generate Quiz":
                             file_name="AI_Quiz_Solutions.pdf",
                             mime="application/pdf",
                             key="download_solution_pdf"
-                        )                   
+                        )
+                 
