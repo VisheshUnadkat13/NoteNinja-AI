@@ -1,6 +1,8 @@
 import streamlit as st
 from src.utils.helpers import save_uploaded_file
 from src.loaders.pdf_loader import load_pdf
+from src.loaders.image_loader import load_image
+from src.loaders.ppt_loader import load_pptx
 from src.text_processing.text_splitter import split_text
 from src.vector_db.faiss_store import create_vector_store
 from src.chat.chat_with_notes import chat_with_pdf
@@ -31,29 +33,40 @@ st.markdown("""
 
 st.sidebar.header("Upload Study Material")
 
-uploaded_file = st.sidebar.file_uploader("Upload PDF Notes")
+uploaded_file = st.sidebar.file_uploader(
+    "Upload Notes (PDF, PPTX, Images)", 
+    type=["pdf", "pptx", "png", "jpg", "jpeg"]
+)
 
 if uploaded_file:
 
     path = save_uploaded_file(uploaded_file)
+    ext = uploaded_file.name.split(".")[-1].lower()
 
-    with st.spinner("Processing PDF (Applying OCR if scanned)..."):
-        text = load_pdf(path)
+    with st.spinner(f"Processing {ext.upper()} (Applying OCR if needed)..."):
+        if ext == "pdf":
+            text = load_pdf(path)
+        elif ext == "pptx":
+            text = load_pptx(path)
+        elif ext in ["png", "jpg", "jpeg"]:
+            text = load_image(path)
+        else:
+            text = ""
 
     if not text.strip():
-        st.sidebar.error("❌ Error: No text found. This PDF might be a scanned document or image-based. Please upload a standard text PDF.")
+        st.sidebar.error("❌ Error: No text found. Please ensure the file contains readable content.")
     else:
         chunks = split_text(text)
         
         if not chunks:
-            st.sidebar.error("❌ Error: Could not extract valid text chunks from this PDF.")
+            st.sidebar.error("❌ Error: Could not extract valid text chunks from this file.")
         else:
             try:
                 create_vector_store(chunks)
                 st.sidebar.success("✅ Notes uploaded successfully!")
                 st.session_state["notes_text"] = text
             except Exception as e:
-                st.sidebar.error(f"❌ Failed to process PDF: {str(e)}")
+                st.sidebar.error(f"❌ Failed to process file: {str(e)}")
 
 
 # ---------------- Feature Selection ----------------
@@ -113,7 +126,7 @@ if menu == "Summarize":
             <div class="premium-card" style="text-align: center; padding: 50px;">
                 <h2 style="margin-bottom: 20px;">Ready to Start?</h2>
                 <p style="font-size: 1.1rem; color: #94a3b8; margin-bottom: 30px;">
-                    Upload a PDF document in the sidebar to unlock the power of AI summarization.
+                    Upload a document (PDF, PPTX, or Image) in the sidebar to unlock the power of AI summarization.
                 </p>
                 <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
                     <div style="background: rgba(99, 102, 241, 0.1); padding: 20px; border-radius: 16px; border: 1px solid rgba(99, 102, 241, 0.2); width: 200px;">

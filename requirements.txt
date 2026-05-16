@@ -18,3 +18,4 @@ deep-translator
 pytesseract
 PyMuPDF
 fpdf
+python-pptx
