@@ -4,7 +4,7 @@
 #     return OllamaEmbeddings(model="nomic-embed-text")
 
 
-from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_huggingface import HuggingFaceEmbeddings
 
 def get_embedding_model():
     model=HuggingFaceEmbeddings(

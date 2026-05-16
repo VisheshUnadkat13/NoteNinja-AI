@@ -8,13 +8,13 @@ def get_rag_chain(query):
 
     retriever = vector_store.as_retriever()
 
-    docs = retriever.get_relevant_documents(query)
+    docs = retriever.invoke(query)
 
     context = "\n\n".join([doc.page_content for doc in docs])
 
     llm = ChatGroq(
         groq_api_key=GROQ_API_KEY,
-        model_name="llama-3.3-70b-versatile",
+        model_name="openai/gpt-oss-120b",
         temperature=0.2
     )
 

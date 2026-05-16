@@ -75,7 +75,7 @@ st.sidebar.markdown("### 🛠️ Workspace")
 
 menu = st.sidebar.selectbox(
     "Choose Feature",
-    ["Summarize", "Generate Quiz"]
+    ["Chat with Notes","Summarize", "Generate Quiz"]
 )
 
 # 👇 Voice Settings
@@ -96,25 +96,32 @@ lang_code = lang_map[language]
 
 # ---------------- Chat ----------------
 
-# if menu == "Chat with Notes":
-#     if "notes_text" not in st.session_state:
-#         st.warning("Please upload notes first.")
-#     else:
-#         if st.button("Chat with Notes"):
-#             query = st.text_input("Ask a question about your notes")
+if menu == "Chat with Notes":
+    if "notes_text" not in st.session_state:
+        st.markdown("""
+            <div class="premium-card" style="text-align: center; padding: 50px;">
+                <h2 style="margin-bottom: 20px;">Chat with Your Knowledge</h2>
+                <p style="font-size: 1.1rem; color: #94a3b8; margin-bottom: 30px;">
+                    Upload your notes in the sidebar to start a conversation with NoteNinja AI.
+                </p>
+            </div>
+        """, unsafe_allow_html=True)
+    else:
+        st.markdown('<div class="premium-card">', unsafe_allow_html=True)
+        st.markdown("### 💬 Chat with Your Notes")
+        st.write("Ask anything about your uploaded study material.")
+        
+        query = st.text_input("Type your question here...", key="chat_query")
 
-#             if query:
-
-#                 response = chat_with_pdf(st.session_state["notes_text"])
-
-#                 st.write(response)    
-    # query = st.text_input("Ask a question about your notes")
-
-    # if query:
-
-    #     response = chat_with_pdf(query)
-
-    #     st.write(response)
+        if query:
+            with st.spinner("NoteNinja is thinking..."):
+                try:
+                    response = chat_with_pdf(query)
+                    st.markdown("---")
+                    st.markdown(f"**🤖 NoteNinja:** {response}")
+                except Exception as e:
+                    st.error(f"❌ Error during chat: {str(e)}")
+        st.markdown('</div>', unsafe_allow_html=True)
 
 
 # ---------------- Summarize ----------------
