@@ -14,6 +14,7 @@ from src.utils.tts import generate_audio
 from src.utils.theme import apply_theme
 from src.utils.pdf_generator import create_summary_pdf
 from src.utils.quiz_pdf_generator import create_quiz_solution_pdf
+from src.utils.youtube_search import search_youtube_videos
 
 st.set_page_config(page_title="NoteNinja AI", layout="wide", initial_sidebar_state="expanded")
 
@@ -75,7 +76,7 @@ st.sidebar.markdown("### 🛠️ Workspace")
 
 menu = st.sidebar.selectbox(
     "Choose Feature",
-    ["Chat with Notes","Summarize", "Generate Quiz"]
+    ["Chat with Notes","Summarize", "Generate Quiz", "Video Recommendations"]
 )
 
 # 👇 Voice Settings
@@ -660,4 +661,59 @@ if menu == "Generate Quiz":
                             mime="application/pdf",
                             key="download_solution_pdf"
                         )
+
+# ---------------- Video Recommendations ----------------
+
+if menu == "Video Recommendations":
+    st.markdown('<div class="premium-card">', unsafe_allow_html=True)
+    st.markdown("### 🎥 Video Recommendations")
+    st.write("Get hand-picked YouTube videos to master any topic.")
+    
+    # Use the session state notes text as a default search query if available
+    default_query = ""
+    if "notes_text" in st.session_state:
+        # Try to get a good search term from the notes if possible, otherwise leave empty
+        # For now, let's just let the user type.
+        pass
+        
+    search_query = st.text_input("Enter topic to search videos for:", placeholder="e.g., OOPS Concepts in Java", key="youtube_search_input")
+    
+    if st.button("🔍 Find Videos", key="search_videos_btn"):
+        if search_query:
+            with st.spinner(f"Searching for '{search_query}' videos..."):
+                videos = search_youtube_videos(search_query)
+                
+                if videos:
+                    st.markdown("---")
+                    st.subheader(f"📺 Top Recommendations for '{search_query}'")
+                    
+                    for video in videos:
+                        col1, col2 = st.columns([1, 2])
+                        
+                        with col1:
+                            st.image(video['thumbnail'], use_container_width=True)
+                        
+                        with col2:
+                            st.markdown(f"#### {video['title']}")
+                            st.markdown(f"**Channel:** {video['channel']}")
+                            st.markdown(f"**Duration:** {video['duration']} | **Views:** {video['views']}")
+                            st.markdown(f'''
+                                <a href="{video['link']}" target="_blank">
+                                    <button style="
+                                        background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+                                        color: white;
+                                        border: none;
+                                        padding: 8px 16px;
+                                        border-radius: 8px;
+                                        cursor: pointer;
+                                        font-weight: 600;
+                                    ">Watch on YouTube ↗</button>
+                                </a>
+                            ''', unsafe_allow_html=True)
+                        st.markdown("<br>", unsafe_allow_html=True)
+                else:
+                    st.warning("No videos found. Please try a different search term.")
+        else:
+            st.error("Please enter a topic to search.")
+    st.markdown('</div>', unsafe_allow_html=True)
                  
