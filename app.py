@@ -34,40 +34,80 @@ st.markdown("""
 
 st.sidebar.header("Upload Study Material")
 
-uploaded_file = st.sidebar.file_uploader(
+uploaded_files = st.sidebar.file_uploader(
     "Upload Notes (PDF, PPTX, Images)", 
-    type=["pdf", "pptx", "png", "jpg", "jpeg"]
+    type=["pdf", "pptx", "png", "jpg", "jpeg"],
+    accept_multiple_files=True
 )
 
-if uploaded_file:
-
-    path = save_uploaded_file(uploaded_file)
-    ext = uploaded_file.name.split(".")[-1].lower()
-
-    with st.spinner(f"Processing {ext.upper()} (Applying OCR if needed)..."):
-        if ext == "pdf":
-            text = load_pdf(path)
-        elif ext == "pptx":
-            text = load_pptx(path)
-        elif ext in ["png", "jpg", "jpeg"]:
-            text = load_image(path)
-        else:
-            text = ""
-
-    if not text.strip():
-        st.sidebar.error("❌ Error: No text found. Please ensure the file contains readable content.")
-    else:
-        chunks = split_text(text)
+if uploaded_files:
+    # Generate a unique key for the current set of files based on their names and sizes
+    current_files_hash = str([(f.name, f.size) for f in uploaded_files])
+    
+    # Process only if the uploaded files have changed
+    if "processed_files_hash" not in st.session_state or st.session_state["processed_files_hash"] != current_files_hash:
+        all_texts = []
+        errors = []
+        successes = []
         
-        if not chunks:
-            st.sidebar.error("❌ Error: Could not extract valid text chunks from this file.")
-        else:
-            try:
-                create_vector_store(chunks)
-                st.sidebar.success("✅ Notes uploaded successfully!")
-                st.session_state["notes_text"] = text
-            except Exception as e:
-                st.sidebar.error(f"❌ Failed to process file: {str(e)}")
+        with st.sidebar.status("Processing uploaded files...", expanded=True) as status:
+            for uploaded_file in uploaded_files:
+                try:
+                    path = save_uploaded_file(uploaded_file)
+                    ext = uploaded_file.name.split(".")[-1].lower()
+                    
+                    st.write(f"📄 Processing `{uploaded_file.name}`...")
+                    
+                    if ext == "pdf":
+                        text = load_pdf(path)
+                    elif ext == "pptx":
+                        text = load_pptx(path)
+                    elif ext in ["png", "jpg", "jpeg"]:
+                        text = load_image(path)
+                    else:
+                        text = ""
+                    
+                    if not text.strip():
+                        errors.append(f"❌ `{uploaded_file.name}`: No readable text found.")
+                    else:
+                        all_texts.append(f"--- Document: {uploaded_file.name} ---\n{text}")
+                        successes.append(uploaded_file.name)
+                except Exception as e:
+                    errors.append(f"❌ `{uploaded_file.name}`: {str(e)}")
+            
+            if successes:
+                status.update(label="✅ Processing complete!", state="complete", expanded=False)
+            else:
+                status.update(label="❌ Processing failed!", state="error", expanded=True)
+        
+        # Display errors if any
+        if errors:
+            for error in errors:
+                st.sidebar.error(error)
+                
+        if all_texts:
+            combined_text = "\n\n".join(all_texts)
+            chunks = split_text(combined_text)
+            
+            if not chunks:
+                st.sidebar.error("❌ Error: Could not extract valid text chunks from uploaded files.")
+            else:
+                try:
+                    create_vector_store(chunks)
+                    st.sidebar.success(f"✅ Successfully loaded {len(successes)} file(s)!")
+                    st.session_state["notes_text"] = combined_text
+                    st.session_state["processed_files_hash"] = current_files_hash
+                except Exception as e:
+                    st.sidebar.error(f"❌ Failed to process files: {str(e)}")
+else:
+    # Clear the session state if no files are uploaded
+    if "notes_text" in st.session_state:
+        st.session_state.pop("notes_text", None)
+    if "processed_files_hash" in st.session_state:
+        st.session_state.pop("processed_files_hash", None)
+    st.session_state.pop("quiz", None)
+    st.session_state.pop("quiz_generated", None)
+    st.session_state.pop("answers", None)
 
 
 # ---------------- Feature Selection ----------------
