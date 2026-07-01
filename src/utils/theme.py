@@ -5,13 +5,16 @@ def apply_theme():
     if "dark_mode" not in st.session_state:
         st.session_state.dark_mode = True
 
-    # Theme colors (Premium Dark Mode)
+    # Theme colors ("Focus Mode" — Indigo + Mint, Dark Mode)
     bg_color = "#0f172a"
-    accent_gradient = "linear-gradient(135deg, #6366f1 0%, #a855f7 100%)"
-    secondary_accent = "#8b5cf6"
+    accent_gradient = "linear-gradient(135deg, #4F46E5 0%, #10B981 100%)"
+    secondary_accent = "#10B981"
     text_color = "#f8fafc"
     card_bg = "rgba(30, 41, 59, 0.7)"
     border_color = "rgba(255, 255, 255, 0.1)"
+    success_color = "#10B981"
+    warning_color = "#F59E0B"
+    error_color = "#EF4444"
 
     # Apply CSS
     st.markdown(f"""
@@ -24,8 +27,8 @@ def apply_theme():
             background-color: {bg_color};
             color: {text_color};
             background-image: 
-                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.15) 0px, transparent 50%);
+                radial-gradient(at 0% 0%, rgba(79, 70, 229, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(16, 185, 129, 0.15) 0px, transparent 50%);
             background-attachment: fixed;
         }}
 
@@ -85,7 +88,7 @@ def apply_theme():
 
         .stButton>button:hover {{
             transform: translateY(-4px) scale(1.02);
-            box-shadow: 0 0 20px rgba(99, 102, 241, 0.6), 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.5), 0 20px 25px -5px rgba(0, 0, 0, 0.2);
             border-color: transparent !important;
         }}
 
@@ -122,7 +125,7 @@ def apply_theme():
         div[data-baseweb="select"] > div:hover, 
         div[data-baseweb="input"] > div:focus-within {{
             border-color: {secondary_accent} !important;
-            box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2);
+            box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
         }}
 
         /* File Uploader styling */
@@ -179,7 +182,7 @@ def apply_theme():
 
         .premium-card:hover {{
             transform: translateY(-5px);
-            border: 1px solid rgba(139, 92, 246, 0.3);
+            border: 1px solid rgba(16, 185, 129, 0.3);
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
         }}
 
@@ -207,13 +210,40 @@ def apply_theme():
             opacity: 0.5;
         }}
 
-        /* Custom Alerts */
+        /* Custom Alerts (default/info) */
         .stAlert {{
             background: {card_bg} !important;
             backdrop-filter: blur(10px) !important;
             border: 1px solid {border_color} !important;
             border-radius: 16px !important;
             color: {text_color} !important;
+        }}
+
+        /* Success Alerts (e.g. correct quiz answers) */
+        div[data-testid="stAlertContentSuccess"], .stAlert:has(div[data-testid="stAlertContentSuccess"]) {{
+            border: 1px solid rgba(16, 185, 129, 0.4) !important;
+            background: rgba(16, 185, 129, 0.1) !important;
+        }}
+        div[data-testid="stAlertContentSuccess"] p {{
+            color: {success_color} !important;
+        }}
+
+        /* Warning Alerts */
+        div[data-testid="stAlertContentWarning"], .stAlert:has(div[data-testid="stAlertContentWarning"]) {{
+            border: 1px solid rgba(245, 158, 11, 0.4) !important;
+            background: rgba(245, 158, 11, 0.1) !important;
+        }}
+        div[data-testid="stAlertContentWarning"] p {{
+            color: {warning_color} !important;
+        }}
+
+        /* Error Alerts (e.g. incorrect quiz answers) */
+        div[data-testid="stAlertContentError"], .stAlert:has(div[data-testid="stAlertContentError"]) {{
+            border: 1px solid rgba(239, 68, 68, 0.4) !important;
+            background: rgba(239, 68, 68, 0.1) !important;
+        }}
+        div[data-testid="stAlertContentError"] p {{
+            color: {error_color} !important;
         }}
 
         /* Style Header to match website */
@@ -252,7 +282,7 @@ def apply_theme():
         }}
         div[role="radiogroup"] label:hover {{
             border-color: {secondary_accent};
-            background: rgba(99, 102, 241, 0.1);
+            background: rgba(16, 185, 129, 0.1);
         }}
         /* Target the text inside the radio button label */
         div[role="radiogroup"] label div[data-testid="stMarkdownContainer"] p {{
