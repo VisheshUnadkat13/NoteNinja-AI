@@ -18,9 +18,19 @@
 <img width="3000" height="1240" alt="quiz_generation_module_dataflow" src="https://github.com/user-attachments/assets/cd976097-b6de-40a8-8459-b73ae524c8b9" />
 
 ## Screenshots
-<img width="1917" height="1027" alt="Screenshot 2026-07-01 143500" src="https://github.com/user-attachments/assets/284a97d1-33b6-45b5-9576-10207ad50145" />
-<img width="1918" height="1027" alt="Screenshot 2026-07-01 143635" src="https://github.com/user-attachments/assets/b8dbc5e6-0b93-456f-9d1f-60b3fa3af89a" />
-<img width="1918" height="1028" alt="Screenshot 2026-07-01 143646" src="https://github.com/user-attachments/assets/f9d2eb22-1c30-440e-b8bb-7f0ea520505a" />
+<img width="1918" height="1033" alt="Screenshot 2026-07-02 134412" src="https://github.com/user-attachments/assets/c78750f0-1221-4c5e-a0c1-d7b9d1776e4e" />
+<img width="1918" height="1035" alt="Screenshot 2026-07-02 134532" src="https://github.com/user-attachments/assets/3d795ac4-dee7-408b-b4b8-63522730558a" />
+<img width="1917" height="1031" alt="Screenshot 2026-07-02 134544" src="https://github.com/user-attachments/assets/bb42ed9b-8b81-462c-950e-ec943332df65" />
+<img width="1918" height="1032" alt="Screenshot 2026-07-02 134557" src="https://github.com/user-attachments/assets/4f7f0e84-9748-48af-8fcc-63926dea1497" />
+<img width="1918" height="1026" alt="Screenshot 2026-07-02 134615" src="https://github.com/user-attachments/assets/23154dd1-05cd-40d6-879b-d32d8883be2d" />
+<img width="1918" height="1026" alt="Screenshot 2026-07-02 134630" src="https://github.com/user-attachments/assets/495794e9-9985-416f-b61b-c3f9d4597db9" />
+<img width="1918" height="1030" alt="Screenshot 2026-07-02 134640" src="https://github.com/user-attachments/assets/42023d8d-09d8-4ab9-aa5c-e41d5c2c78d5" />
+<img width="1918" height="1025" alt="Screenshot 2026-07-02 134906" src="https://github.com/user-attachments/assets/29044096-94c0-466c-a9c4-7e925e023740" />
+<img width="1918" height="1020" alt="Screenshot 2026-07-02 135723" src="https://github.com/user-attachments/assets/1f7a26c7-8fcf-46b5-a52c-7ee051be2a09" />
+<img width="1918" height="1027" alt="Screenshot 2026-07-02 135929" src="https://github.com/user-attachments/assets/66d7201a-5134-4192-9241-1bad0aab7af5" />
+<img width="1918" height="1027" alt="Screenshot 2026-07-02 135939" src="https://github.com/user-attachments/assets/85945a64-3172-4c2f-9b46-782cb9058995" />
+<img width="1918" height="1025" alt="Screenshot 2026-07-02 135958" src="https://github.com/user-attachments/assets/092ccab4-d86f-4fae-a3a5-02a0a69a6d82" />
+
 
 
 # 📚 NoteNinja AI 
