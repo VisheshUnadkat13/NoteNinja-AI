@@ -6,7 +6,7 @@ def summerize_text(text):
     llm=ChatGroq(
         groq_api_key=GROQ_API_KEY,
         model_name="openai/gpt-oss-120b",
-        temperature=0.5
+        temperature=0.1
     )
 
     prompt=f"""

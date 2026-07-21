@@ -15,7 +15,7 @@ def get_rag_chain(query):
     llm = ChatGroq(
         groq_api_key=GROQ_API_KEY,
         model_name="openai/gpt-oss-120b",
-        temperature=0.2
+        temperature=0.1
     )
 
     prompt = f"""
